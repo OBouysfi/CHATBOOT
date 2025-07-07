@@ -162,4 +162,4 @@ Pour toute question ou support :
 
 ---
 
-![image](https://github.com/user-attachments/assets/c556866e-cf63-4bf4-8ec2-77ef7fa11424)
+![image](https://github.com/user-attachments/assets/77eb75fa-7449-4c7d-97b9-57b70e7a2681)
