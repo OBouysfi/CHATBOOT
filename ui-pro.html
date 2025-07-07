@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assistant RH Multi-Agents - Maroc</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="floating-elements">
+                <div class="floating-circle"></div>
+                <div class="floating-circle"></div>
+                <div class="floating-circle"></div>
+            </div>
+            
+            <div class="header-content">
+                <div class="logo">
+                    <img src="logo.png" alt="HumanJOBS Logo" width="50" height="50" 
+                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="logo-placeholder" style="display: none;">HJ</div>
+                </div>
+                
+                <div class="header-text">
+                    <h1><span class="logo-part1">Human</span><span class="logo-part2">JOBS</span> - Assistant RH Multi-Agents</h1>
+                    <p>Système intelligent d'aide aux ressources humaines pour le Maroc</p>
+                    <div class="ai-indicator">
+                        <div class="ai-pulse"></div>
+                        <span class="ai-text">IA Multi-Agents Active</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <aside class="sidebar">
+                <div class="connection-status online" id="connectionStatus">
+                    <i class="fas fa-plug"></i> Agents connectés
+                </div>
+                
+                <div class="agent-status">
+                    <h3><i class="fas fa-robot"></i> Agents Actifs</h3>
+                    <div id="agentsList">
+                        <div class="agent-item" data-agent="orchestrator">
+                            <div class="agent-status-dot"></div>
+                            <span class="agent-name">Orchestrateur</span>
+                            <span class="agent-role">Coordinateur</span>
+                        </div>
+                        <div class="agent-item" data-agent="rag">
+                            <div class="agent-status-dot"></div>
+                            <span class="agent-name">Spécialiste RAG</span>
+                            <span class="agent-role">Recherche</span>
+                        </div>
+                        <div class="agent-item" data-agent="web">
+                            <div class="agent-status-dot"></div>
+                            <span class="agent-name">Chercheur Web</span>
+                            <span class="agent-role">Actualités</span>
+                        </div>
+                        <div class="agent-item" data-agent="labor">
+                            <div class="agent-status-dot"></div>
+                            <span class="agent-name">Expert Droit Travail</span>
+                            <span class="agent-role">Juridique</span>
+                        </div>
+                        <div class="agent-item" data-agent="recruitment">
+                            <div class="agent-status-dot"></div>
+                            <span class="agent-name">Spécialiste Recrutement</span>
+                            <span class="agent-role">Talent</span>
+                        </div>
+                        <div class="agent-item" data-agent="payroll">
+                            <div class="agent-status-dot"></div>
+                            <span class="agent-name">Calculateur Paie</span>
+                            <span class="agent-role">Finances</span>
+                        </div>
+                        <div class="agent-item" data-agent="policy">
+                            <div class="agent-status-dot"></div>
+                            <span class="agent-name">Conseiller Politiques</span>
+                            <span class="agent-role">Stratégie</span>
+                        </div>
+                        <div class="agent-item" data-agent="performance">
+                            <div class="agent-status-dot"></div>
+                            <span class="agent-name">Analyste Performance</span>
+                            <span class="agent-role">Évaluation</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="agent-details" id="agentDetails">
+                    <h4><i class="fas fa-info-circle"></i> Détails de l'agent</h4>
+                    <p id="agentDescription">Sélectionnez un agent pour voir ses détails</p>
+                </div>
+
+                <div class="quick-actions">
+                    <h3><i class="fas fa-bolt"></i> Actions Rapides</h3>
+                    <button class="quick-btn" onclick="askQuickQuestion('Quels sont les congés payés au Maroc ?')">
+                        <i class="fas fa-calendar-alt"></i> Congés Payés
+                    </button>
+                    <button class="quick-btn" onclick="askQuickQuestion('Comment calculer le salaire net au Maroc ?')">
+                        <i class="fas fa-calculator"></i> Calcul Salaire
+                    </button>
+                    <button class="quick-btn" onclick="askQuickQuestion('Processus de recrutement recommandé')">
+                        <i class="fas fa-user-plus"></i> Recrutement
+                    </button>
+                    <button class="quick-btn" onclick="askQuickQuestion('Durée légale du travail au Maroc')">
+                        <i class="fas fa-clock"></i> Temps de Travail
+                    </button>
+                    <button class="quick-btn" onclick="clearChat()">
+                        <i class="fas fa-broom"></i> Nouvelle Conversation
+                    </button>
+                </div>
+            </aside>
+
+            <main class="chat-area">
+                <div class="messages-container" id="chatMessages">
+                    <div class="welcome-message">
+                        <h3><i class="fas fa-hands-helping"></i> Bienvenue dans l'Assistant RH Multi-Agents</h3>
+                        <p>Posez vos questions sur les ressources humaines au Maroc. Nos agents spécialisés analyseront votre demande et fourniront une réponse complète basée sur:</p>
+                        <ul>
+                            <li><i class="fas fa-book"></i> Documents internes et politiques RH</li>
+                            <li><i class="fas fa-globe"></i> Informations actuelles du web</li>
+                            <li><i class="fas fa-balance-scale"></i> Code du travail marocain</li>
+                            <li><i class="fas fa-chart-line"></i> Meilleures pratiques RH</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="typing-indicator" id="typingIndicator">
+                    <div class="typing-dots">
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                    </div>
+                    <span style="margin-left: 10px;">Les agents analysent votre question...</span>
+                </div>
+
+                <div class="input-area">
+                    <div class="input-container">
+                        <textarea 
+                            id="userInput" 
+                            placeholder="Posez votre question sur les RH au Maroc..."
+                            rows="1"
+                        ></textarea>
+                    </div>
+                    <button id="sendBtn">
+                        <i class="fas fa-paper-plane"></i> Envoyer
+                    </button>
+                </div>
+            </main>
+        </div>
+        
+        <div class="footer">
+            <p><i class="fas fa-shield-alt"></i> Vos données sont sécurisées et traitées localement - HumanJOBS</p>
+            <p>Assistant RH Multi-Agents v2.0 | Conforme au Code du Travail Marocain</p>
+        </div>
+    </div>
+
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <h3>Connexion aux agents en cours...</h3>
+            <p>Veuillez patienter pendant que nous initialisons le système</p>
+        </div>
+    </div>
+
+    <script>
+        class MoroccanHRAssistant {
+            constructor() {
+                this.apiEndpoint = 'http://127.0.0.1:8000';
+                this.messageHistory = [];
+                this.currentSessionId = this.generateSessionId();
+                this.isConnected = false;
+                this.agentDescriptions = {
+                    'orchestrator': "L'agent Orchestrateur coordonne tous les agents spécialisés. Il analyse votre question, détermine quels agents sont nécessaires pour y répondre, et synthétise les réponses pour vous fournir une réponse complète et cohérente.",
+                    'rag': "Le spécialiste RAG (Retrieval-Augmented Generation) accède à la base de connaissances des documents RH de l'entreprise pour trouver des informations pertinentes concernant vos politiques internes, procédures et documents de référence.",
+                    'web': "Le chercheur Web explore les sources d'information en ligne fiables pour trouver les dernières actualités, modifications législatives et meilleures pratiques en matière de ressources humaines au Maroc.",
+                    'labor': "L'expert en droit du travail marocain fournit des informations précises sur la législation du travail, les obligations légales des employeurs, et les droits des employés conformément au Code du Travail marocain.",
+                    'recruitment': "Le spécialiste recrutement conseille sur les meilleures pratiques d'embauche, les techniques d'entretien, les plateformes de recrutement locales, et les stratégies d'attraction des talents au Maroc.",
+                    'payroll': "Le calculateur de paie effectue des simulations précises de salaires nets, calcule les cotisations sociales obligatoires (CNSS, AMO) et l'impôt sur le revenu selon les barèmes marocains en vigueur.",
+                    'policy': "Le conseiller en politiques RH aide à développer et à mettre en œuvre des politiques RH efficaces, conformes à la législation marocaine et adaptées à la culture d'entreprise.",
+                    'performance': "L'analyste de performance évalue les systèmes d'évaluation des employés, propose des méthodes pour mesurer la productivité et suggère des programmes de développement professionnel."
+                };
+                this.setupEventListeners();
+                this.initializeSystem();
+            }
+
+            generateSessionId() {
+                return 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            }
+
+            setupEventListeners() {
+                const userInput = document.getElementById('userInput');
+                const sendBtn = document.getElementById('sendBtn');
+                const agentsList = document.getElementById('agentsList');
+
+                userInput.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        this.sendMessage();
+                    }
+                });
+
+                userInput.addEventListener('input', () => {
+                    this.autoResize(userInput);
+                });
+                
+                sendBtn.addEventListener('click', () => {
+                    this.sendMessage();
+                });
+                
+                // Handle agent selection
+                agentsList.querySelectorAll('.agent-item').forEach(item => {
+                    item.addEventListener('click', () => {
+                        const agentId = item.getAttribute('data-agent');
+                        this.showAgentDetails(agentId);
+                    });
+                });
+
+                // Handle window beforeunload
+                window.addEventListener('beforeunload', () => {
+                    this.cleanup();
+                });
+            }
+            
+            showAgentDetails(agentId) {
+                const detailsContainer = document.getElementById('agentDetails');
+                const descriptionElement = document.getElementById('agentDescription');
+                
+                // Highlight selected agent
+                document.querySelectorAll('.agent-item').forEach(item => {
+                    item.classList.remove('active-agent');
+                });
+                const selectedAgent = document.querySelector(`.agent-item[data-agent="${agentId}"]`);
+                if (selectedAgent) {
+                    selectedAgent.classList.add('active-agent');
+                }
+                
+                // Show details
+                if (this.agentDescriptions[agentId]) {
+                    descriptionElement.textContent = this.agentDescriptions[agentId];
+                    detailsContainer.style.display = 'block';
+                }
+            }
+
+            autoResize(textarea) {
+                textarea.style.height = 'auto';
+                textarea.style.height = Math.min(textarea.scrollHeight, 150) + 'px';
+            }
+
+            async initializeSystem() {
+                this.showLoadingOverlay();
+                
+                try {
+                    // Simulate system initialization
+                    await this.checkSystemHealth();
+                    await this.loadAgentStatus();
+                    
+                    this.isConnected = true;
+                    this.updateConnectionStatus(true);
+                    
+                } catch (error) {
+                    console.error('System initialization failed:', error);
+                    this.isConnected = false;
+                    this.updateConnectionStatus(false);
+                } finally {
+                    this.hideLoadingOverlay();
+                }
+            }
+
+            async checkSystemHealth() {
+                // Simulate API health check
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                return true;
+            }
+
+            async loadAgentStatus() {
+                // Simulate loading agent statuses
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                const agents = document.querySelectorAll('.agent-item .agent-status-dot');
+                agents.forEach((dot, index) => {
+                    setTimeout(() => {
+                        dot.style.background = '#28a745';
+                        dot.style.transform = 'scale(1.2)';
+                        setTimeout(() => {
+                            dot.style.transform = 'scale(1)';
+                        }, 200);
+                    }, index * 100);
+                });
+            }
+
+          
+            updateConnectionStatus(connected) {
+                const statusElement = document.getElementById('connectionStatus');
+                if (connected) {
+                    statusElement.className = 'connection-status online';
+                    statusElement.innerHTML = '<i class="fas fa-plug"></i> Agents connectés';
+                } else {
+                    statusElement.className = 'connection-status offline';
+                    statusElement.innerHTML = '<i class="fas fa-plug"></i> Connexion interrompue';
+                }
+            }
+
+            showLoadingOverlay() {
+                document.getElementById('loadingOverlay').style.display = 'flex';
+            }
+
+            hideLoadingOverlay() {
+                document.getElementById('loadingOverlay').style.display = 'none';
+            }
+            
+            showTypingIndicator() {
+                document.getElementById('typingIndicator').classList.add('active');
+            }
+            
+            hideTypingIndicator() {
+                document.getElementById('typingIndicator').classList.remove('active');
+            }
+
+            async sendMessage() {
+                const userInput = document.getElementById('userInput');
+                const message = userInput.value.trim();
+                
+                if (!message) return;
+
+                if (!this.isConnected) {
+                    this.addMessage(
+                        'Impossible d\'envoyer le message. Système hors ligne. Veuillez réessayer plus tard.',
+                        'bot'
+                    );
+                    return;
+                }
+
+                // Disable input during processing
+                userInput.disabled = true;
+                document.getElementById('sendBtn').disabled = true;
+
+                // Add user message to chat
+                this.addMessage(message, 'user');
+                userInput.value = '';
+                userInput.style.height = 'auto';
+
+                // Show typing indicator
+                this.showTypingIndicator();
+
+                try {
+                    // Call the multi-agent API
+                    const response = await this.callHRAgentAPI(message);
+                    this.hideTypingIndicator();
+                    this.addMessage(response.content, 'bot', response.metadata);
+                } catch (error) {
+                    console.error('Error:', error);
+                    this.hideTypingIndicator();
+                    this.addMessage(
+                        'Désolé, une erreur s\'est produite lors de la communication avec les agents. Veuillez réessayer.',
+                        'bot'
+                    );
+                    this.updateConnectionStatus(false);
+                    this.isConnected = false;
+                } finally {
+                    // Re-enable input
+                    userInput.disabled = false;
+                    document.getElementById('sendBtn').disabled = false;
+                    userInput.focus();
+                }
+            }
+
+            addMessage(content, sender, metadata = null) {
+                const chatMessages = document.getElementById('chatMessages');
+                
+                // Remove welcome message if it's the first user message
+                if (sender === 'user' && chatMessages.querySelector('.welcome-message')) {
+                    chatMessages.innerHTML = '';
+                }
+
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${sender}-message`;
+                
+                const contentDiv = document.createElement('div');
+                contentDiv.className = 'message-content';
+                contentDiv.innerHTML = this.parseMarkdown(content);
+                
+                messageDiv.appendChild(contentDiv);
+                
+                // Create metadata element
+                const metaDiv = document.createElement('div');
+                metaDiv.className = 'message-meta';
+                
+                const now = new Date();
+                const timeString = now.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+                
+                if (sender === 'user') {
+                    metaDiv.innerHTML = `<i class="fas fa-user"></i> Vous, ${timeString}`;
+                } else {
+                    metaDiv.innerHTML = `<i class="fas fa-robot"></i> Assistant RH, ${timeString}`;
+                }
+                
+                messageDiv.appendChild(metaDiv);
+                
+                // Add metadata details for bot messages
+                if (sender === 'bot' && metadata) {
+                    const detailsDiv = document.createElement('div');
+                    detailsDiv.className = 'agent-response-details';
+                    
+                    // Translate agent names
+                    const agentNames = {
+                        'labor_law_expert': 'Expert Droit Travail',
+                        'rag_specialist': 'Spécialiste RAG',
+                        'web_researcher': 'Chercheur Web',
+                        'recruitment_specialist': 'Spécialiste Recrutement',
+                        'payroll_calculator': 'Calculateur Paie',
+                        'policy_advisor': 'Conseiller Politiques',
+                        'performance_analyst': 'Analyste Performance',
+                        'orchestrator': 'Orchestrateur',
+                        'compensation_calculator': 'Calculateur Indemnités',
+                        'training_specialist': 'Spécialiste Formation',
+                        'development_advisor': 'Conseiller Développement',
+                        'contract_lawyer': 'Juriste Contrats',
+                        'general_assistant': 'Assistant Général',
+                        'guidance_specialist': 'Spécialiste Orientation'
+                    };
+                    
+                    const involvedAgents = metadata.involved_agents.map(agent => 
+                        agentNames[agent] || agent
+                    ).join(', ');
+                    
+                    const sources = metadata?.sources?.join(', ');
+                    
+                    detailsDiv.innerHTML = `
+                        <div class="response-metadata">
+                            <span class="metadata-chip"><i class="fas fa-robot"></i> Agents: ${involvedAgents}</span>
+                            <span class="metadata-chip"><i class="fas fa-book"></i> Sources: ${sources}</span>
+                            <span class="metadata-chip"><i class="fas fa-clock"></i> Temps: ${metadata?.processing_time.toFixed(1)}s</span>
+                        </div>
+                        <div class="confidence-bar">
+                            <div class="confidence-fill" style="width: ${metadata?.confidence * 100}%"></div>
+                        </div>
+                        <div class="confidence-value">Confiance: ${Math.round(metadata?.confidence * 100)}%</div>
+                    `;
+                    
+                    messageDiv.appendChild(detailsDiv);
+                }
+                
+                chatMessages.appendChild(messageDiv);
+                
+                // Scroll to bottom
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+
+            parseMarkdown(text) {
+                // Basic markdown parsing
+                let html = text;
+                
+                // Headers
+                html = html.replace(/### (.*?)(\n|$)/g, '<h3>$1</h3>');
+                html = html.replace(/## (.*?)(\n|$)/g, '<h2>$1</h2>');
+                html = html.replace(/# (.*?)(\n|$)/g, '<h1>$1</h1>');
+                
+                // Bold
+                html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                
+                // Italic
+                html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
+                
+                // Lists
+                html = html.replace(/^• (.*)$/gm, '<li>$1</li>');
+                html = html.replace(/(<li>.*<\/li>)/gs, '<ul>$1</ul>');
+                
+                // Line breaks
+                html = html.replace(/\n/g, '<br>');
+                
+                return html;
+            }
+
+            async callHRAgentAPI(question) {
+                try {
+                    const response = await fetch(`${this.apiEndpoint}/ask`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            question: question,
+                            session_id: this.currentSessionId,
+                            context: {
+                                user_location: 'Morocco',
+                                language: 'fr',
+                                history: this.messageHistory.slice(-5)
+                            }
+                        })
+                    });
+                    
+                    if (!response.ok) throw new Error(`API error: ${response.status}`);
+                    
+                    const data = await response.json();
+                    
+                    // Properly map to frontend expectations
+                    return {
+                        content: data.content,
+                        confidence: data.confidence,
+                        sources: data.sources,
+                        metadata: data.metadata,
+                        processing_steps: data.processing_steps
+                    };
+                    
+                } catch (error) {
+                    console.error('API call failed:', error);
+                    return {
+                        content: "Erreur de connexion au système. Veuillez réessayer plus tard.",
+                        confidence: 0.0,
+                        sources: [],
+                        metadata: { error: error.message }
+                    };
+                }
+            }
+
+            async simulateAgentResponse(question) {
+                // Simulate network delay
+                await new Promise(resolve => setTimeout(resolve, 1500 + Math.random() * 2000));
+
+                const q = question.toLowerCase();
+                let response = {
+                    content: '',
+                    metadata: {
+                        involved_agents: [],
+                        confidence: 0.8 + Math.random() * 0.15,
+                        sources: [],
+                        processing_time: Math.random() * 2 + 1
+                    }
+                };
+
+                if (q.includes('congé') || q.includes('vacance')) {
+                    response.content = `📅 **Congés payés au Maroc:**
+
+Selon le Code du travail marocain (Dahir n° 1-03-194):
+• **Durée minimale:** 18 jours ouvrables par an (soit environ 3 semaines)
+• **Calcul:** 1,5 jour par mois de travail effectif
+• **Ancienneté:** Après 6 mois de service continu
+• **Période:** Généralement pris entre le 1er mai et le 30 septembre
+• **Fractionnement:** Possible avec accord de l'employeur
+
+**Congés supplémentaires:**
+• Congé de maternité: 14 semaines
+• Congé de paternité: 3 jours
+• Congés pour événements familiaux selon convention collective
+
+*Analyse effectuée par les agents: Expert Droit du Travail, Spécialiste RAG*`;
+                    
+                    response.metadata.involved_agents = ['labor_law_expert', 'rag_specialist'];
+                    response.metadata.sources = ['Code du travail marocain', 'Articles 231-245'];
+                    response.metadata.confidence = 0.95;
+                } else if (q.includes('salaire') || q.includes('paie') || q.includes('rémunération')) {
+                    response.content = `💰 **Calcul du salaire net au Maroc:**
+
+**Cotisations salariales:**
+• CNSS (retraite, invalidité): 4,26% du salaire brut
+• AMO (assurance maladie): 2,25% du salaire brut
+
+**Impôt sur le revenu (IR) - Barème 2024:**
+• 0 à 30 000 DH/an: 0%
+• 30 001 à 50 000 DH/an: 10%
+• 50 001 à 60 000 DH/an: 20%
+• 60 001 à 80 000 DH/an: 30%
+• Plus de 80 000 DH/an: 38%
+
+**Exemple pour 8 000 DH brut/mois:**
+• Salaire Brut: 8 000 DH
+• CNSS (4,26%): -341 DH
+• AMO (2,25%): -180 DH
+• IR (après déductions): ~200 DH
+• **Salaire Net: ≈ 7 279 DH**
+
+*Analyse effectuée par les agents: Calculateur Paie, Chercheur Web*`;
+                    
+                    response.metadata.involved_agents = ['payroll_calculator', 'web_researcher'];
+                    response.metadata.sources = ['Barème IR 2024', 'Taux CNSS'];
+                    response.metadata.confidence = 0.9;
+                } else if (q.includes('recrutement') || q.includes('embauche')) {
+                    response.content = `👥 **Processus de recrutement recommandé au Maroc:**
+
+**1. Définition du poste**
+• Analyse des besoins et compétences requises
+• Rédaction de la fiche de poste
+• Budget et conditions d'emploi
+
+**2. Sourcing des candidats**
+• Emploi.ma, Rekrute.com, LinkedIn
+• Cooptation interne
+• Écoles et universités partenaires
+• Cabinets de recrutement
+
+**3. Sélection**
+• Tri des CV (attention aux discriminations)
+• Entretiens téléphoniques/vidéo
+• Tests techniques si nécessaire
+• Entretiens en face-à-face
+
+**4. Finalisation**
+• Vérification des références
+• Négociation salariale
+• Contrat de travail conforme au Code du travail
+• Intégration et formation
+
+**Bonnes pratiques:**
+• Respecter l'égalité des chances
+• Délais de réponse raisonnables
+• Processus transparent et professionnel
+
+*Analyse effectuée par les agents: Spécialiste Recrutement, Conseiller Politiques*`;
+                    
+                    response.metadata.involved_agents = ['recruitment_specialist', 'policy_advisor'];
+                    response.metadata.sources = ['Meilleures pratiques RH', 'Emploi.ma', 'Code du travail'];
+                    response.metadata.confidence = 0.85;
+                } else if (q.includes('temps') || q.includes('travail') || q.includes('durée') || q.includes('horaire')) {
+                    response.content = `⏰ **Durée légale du travail au Maroc:**
+
+**Temps de travail normal:**
+• **44 heures par semaine** maximum
+• **8 heures par jour** dans les activités non agricoles
+• **10 heures par jour** dans les activités agricoles
+
+**Heures supplémentaires:**
+• De la 44e à la 48e heure: majoration de 25%
+• Au-delà de 48 heures: majoration de 50%
+• Travail de nuit (21h-6h): majoration de 25%
+• Jours fériés et repos hebdomadaire: majoration de 100%
+
+**Repos obligatoires:**
+• **24 heures consécutives** par semaine (généralement le vendredi)
+• **Repos quotidien:** 12 heures consécutives minimum
+
+**Jours fériés:**
+• Fêtes nationales et religieuses
+• Congés payés selon convention collective
+
+*Analyse effectuée par les agents: Expert Droit du Travail, Spécialiste RAG*`;
+                    
+                    response.metadata.involved_agents = ['labor_law_expert', 'rag_specialist'];
+                    response.metadata.sources = ['Code du travail marocain', 'Articles 184-196'];
+                    response.metadata.confidence = 0.93;
+                } else {
+                    response.content = `Merci pour votre question sur "${question}". 
+
+Les agents spécialisés ont analysé votre demande et voici une réponse synthétisée basée sur la législation marocaine du travail:
+
+**Domaines couverts par notre assistant:**
+• 📅 Congés et absences
+• 💰 Salaires et rémunérations
+• 👥 Recrutement et embauche
+• ⏰ Temps de travail et horaires
+• ⚖️ Droit du travail et contrats
+• 🎓 Formation et développement
+• 📈 Performance et évaluation
+
+Pour une réponse plus précise, vous pouvez reformuler votre question en incluant des détails supplémentaires.
+
+*Analyse effectuée par les agents: Orchestrateur, Assistant Général*`;
+                    
+                    response.metadata.involved_agents = ['orchestrator', 'general_assistant'];
+                    response.metadata.sources = ['Base de connaissances RH Maroc'];
+                    response.metadata.confidence = 0.7;
+                }
+
+                return response;
+            }
+            
+            cleanup() {
+                // Cleanup resources if needed
+            }
+        }
+
+        // Quick action functions
+        function askQuickQuestion(question) {
+            const userInput = document.getElementById('userInput');
+            userInput.value = question;
+            userInput.dispatchEvent(new Event('input', { bubbles: true }));
+            moroccanHRAssistant.sendMessage();
+        }
+
+        function clearChat() {
+            const chatMessages = document.getElementById('chatMessages');
+            chatMessages.innerHTML = `
+                <div class="welcome-message">
+                    <h3><i class="fas fa-hands-helping"></i> Bienvenue dans l'Assistant RH Multi-Agents</h3>
+                    <p>Posez vos questions sur les ressources humaines au Maroc. Nos agents spécialisés analyseront votre demande et fourniront une réponse complète basée sur:</p>
+                    <ul>
+                        <li><i class="fas fa-book"></i> Documents internes et politiques RH</li>
+                        <li><i class="fas fa-globe"></i> Informations actuelles du web</li>
+                        <li><i class="fas fa-balance-scale"></i> Code du travail marocain</li>
+                        <li><i class="fas fa-chart-line"></i> Meilleures pratiques RH</li>
+                    </ul>
+                </div>
+            `;
+        }
+
+        // Initialize the interface when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            window.moroccanHRAssistant = new MoroccanHRAssistant();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+# requirements.txt
+langchain
+langchain-community
+langchain-chroma
+langchain-ollama
+chromadb
+ollama
+duckduckgo-search
+beautifulsoup4
+requests
+flask
+flask-cors
+# sqlite3
+tqdm
+python-dotenv
+asyncio-mqtt
+pydantic
