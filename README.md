@@ -145,7 +145,6 @@ Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
 
 ## 👥 Auteurs
 
-- **Abdkhalek HADDANY** - *Développeur principal*
 - **Othman BOUYSFI** - *Tech Lead* - [@OthmanBouysfi](https://github.com/OthmanBouysfi)
 
 ## 🐛 Signaler un bug
